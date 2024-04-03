@@ -55,6 +55,20 @@ section {
   background-color: var(--nc-bg-1);
 }
 
+header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.logo-div {
+  flex: 0 0 145px;
+  margin-right: 2rem;
+}
+
+.title-div {
+  flex: 1 0 350px;
+}
+
 header nav {
   color: var(--nc-tx-2) 
 }
@@ -101,4 +115,12 @@ figcaption {
 
 .dataframe {
   font-size: .8rem;
+}
+
+.logo {
+  width: 145px;
+  border-radius: 50%;
+  object-fit: fill;
+  height: 145px;
+  box-shadow: 2px 2px 8px 8px rgba(0,0,0,0.1);
 }
