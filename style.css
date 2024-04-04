@@ -12,8 +12,8 @@
     --nc-bg-1: #FFFFFF;
     --nc-bg-2: #F6F8FA;
     --nc-bg-3: #E5E7EB;
-    --nc-lk-1: #0070F3;
-    --nc-lk-2: #0366D6;
+    --nc-lk-1: var(--primary-color);
+    --nc-lk-2: #0055AA;
     --nc-lk-tx: #FFFFFF;
     --nc-ac-1: #79FFE1;
     --nc-ac-tx: #0C4047;
@@ -23,14 +23,15 @@
 header {
   --nc-tx-1: #ffffff;
   --nc-tx-2: #eeeeee;
-  --nc-lk-1: #3291FF;
-  --nc-lk-2: #0070F3;
+  --nc-lk-1: #aaccff;
+  --nc-lk-2: #dddddd;
   --nc-lk-tx: #FFFFFF;
   background-color: var(--primary-color);
 }
 
 h1, h2, h3 {
   margin-bottom: 1rem;
+  padding-bottom: .5rem;
 }
 
 h2 {
@@ -90,13 +91,14 @@ figcaption {
   padding-top: 0.5rem;
   padding-left: 0.8rem;
   padding-right: 0.8rem;
-  text-align: right;
+  text-align: left;
 }
 
 .shadow-box {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   padding: 1.25rem;
   margin-top: 3rem;
+  background-color: var(--nc-bg-1);
 }
 
 .badge {
@@ -126,4 +128,57 @@ figcaption {
 .logo.blackboard-logo {
   border-radius: 50%;
   box-shadow: 2px 2px 8px 8px rgba(0,0,0,0.1);
+}
+
+.contributors-section {
+  margin-top: 3rem;
+  background: none;
+}
+
+.contributors-section > h2 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  border-bottom: none;
+}
+
+.contributors-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 3rem 1rem;
+}
+
+div.contributor-card {
+  flex: 0 0 240px;
+  box-sizing: border-box;
+  margin-top: 0;
+}
+
+div.contributor-card img.portrait{
+  width: 100%;
+  border-radius: 200px;
+}
+
+div.contributor-card h3 {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: normal;
+  margin-bottom: 0.2rem;
+}
+
+div.contributor-card ul.contact-info {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+  font-size: .9rem;
+}
+
+div.contributor-card ul.contact-info li a {
+  text-decoration: none;
+}
+
+div.contributor-card p.contributor-role {
+  text-align: center;
+  font-weight: lighter;
+  margin-bottom: 1rem;
 }
