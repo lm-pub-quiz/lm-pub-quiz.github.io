@@ -119,8 +119,11 @@ figcaption {
 
 .logo {
   width: 145px;
-  border-radius: 50%;
   object-fit: fill;
   height: 145px;
+}
+
+.logo.blackboard-logo {
+  border-radius: 50%;
   box-shadow: 2px 2px 8px 8px rgba(0,0,0,0.1);
 }
