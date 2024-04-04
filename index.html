@@ -33,28 +33,8 @@
         <figcaption>Illustration of how LM Pub Quiz evaluates LMs: Answers are ranked by the (pseudo) log-likelihoods of the textual statements derived from all of the answer options.</figcaption> 
       </figure>
     </section>
-    
     <section class="shadow-box">
-      <div style="text-align: right;"><span class="badge acl">Accepted at NAACL 2024</span></div>
-      <h2>BEAR: A Unified Framework for Evaluating Relational Knowledge in Causal and Masked Language Models</h2>
-      <h3>Abstract</h3>
-      <p>
-  Knowledge probing assesses to which degree a language model (LM) has successfully learned relational knowledge during pre-training. Probing is an inexpensive way to compare LMs of different sizes and training configurations. However, previous approaches rely on the objective function used in pre-training LMs and are thus applicable only to masked or causal LMs. As a result, comparing different types of LMs becomes impossible. To address this, we propose an approach that uses an LM's inherent ability to estimate the log-likelihood of any given textual statement. We carefully design an evaluation dataset of 7,731 instances (40,916 in a larger variant) from which we produce alternative statements for each relational fact, one of which is correct. We then evaluate whether an LM correctly assigns the highest log-likelihood to the correct statement. Our experimental evaluation of 22 common LMs shows that our proposed framework, BEAR, can effectively probe for knowledge across different LM types. We release the BEAR datasets and an open-source framework that implements the probing approach to the research community to facilitate the evaluation and development of LMs. 
-      </p>
-      <p>
-        <a href="">
-          <button><i class="bi bi-file-earmark"></i> Read the Paper</button>
-        </a>
-      </p>
-    </section>
-    <section>
-      <figure class="shadow-box">
-        <img src="./media/accuracy_by_model_size_bear.svg" width="100%" alt="Illustration of how LM Pub Quiz evaluates LMs." style="max-width: 600px;">
-        <figcaption>Accuracy of various models on the BEAR dataset.</figcaption> 
-      </figure>
-    </section>
-    <section class="shadow-box">
-      <h2>Model Results</h2>
+      <h2>Leaderboard</h2>
       <p>
         We evaluated 22 lanuages models (of various sizes, trained using different pretraining objectives, and of both causal and masked LM types) on the BEAR dataset.
       </p>
@@ -266,6 +246,26 @@
   </tbody>
 </table>
     </section>
+    <section class="shadow-box">
+      <div style="text-align: right;"><span class="badge acl">Accepted at NAACL 2024</span></div>
+      <h2>BEAR: A Unified Framework for Evaluating Relational Knowledge in Causal and Masked Language Models</h2>
+      <h3>Abstract</h3>
+      <p>
+  Knowledge probing assesses to which degree a language model (LM) has successfully learned relational knowledge during pre-training. Probing is an inexpensive way to compare LMs of different sizes and training configurations. However, previous approaches rely on the objective function used in pre-training LMs and are thus applicable only to masked or causal LMs. As a result, comparing different types of LMs becomes impossible. To address this, we propose an approach that uses an LM's inherent ability to estimate the log-likelihood of any given textual statement. We carefully design an evaluation dataset of 7,731 instances (40,916 in a larger variant) from which we produce alternative statements for each relational fact, one of which is correct. We then evaluate whether an LM correctly assigns the highest log-likelihood to the correct statement. Our experimental evaluation of 22 common LMs shows that our proposed framework, BEAR, can effectively probe for knowledge across different LM types. We release the BEAR datasets and an open-source framework that implements the probing approach to the research community to facilitate the evaluation and development of LMs. 
+      </p>
+      <p>
+        <a href="">
+          <button><i class="bi bi-file-earmark"></i> Read the Paper</button>
+        </a>
+      </p>
+    </section>
+    <section>
+      <figure class="shadow-box">
+        <img src="./media/accuracy_by_model_size_bear.svg" width="100%" alt="Illustration of how LM Pub Quiz evaluates LMs." style="max-width: 600px;">
+        <figcaption>Accuracy of various models on the BEAR dataset.</figcaption> 
+      </figure>
+    </section>
+
     <section class="shadow-box">
       <h2>Citation</h2>
       <p>When using the dataset or library, please cite the following paper:</p>
