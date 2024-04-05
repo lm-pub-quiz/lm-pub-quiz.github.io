@@ -39,24 +39,20 @@
       <p>
         We evaluated 22 lanuages models (of various sizes, trained using different pretraining objectives, and of both causal and masked LM types) on the BEAR dataset.
       </p>
-
+      <div style="overflow-x: scroll;">
 <table border="1" class="dataframe">
+  <colgroup>
+     <col span="1" style="min-width: 4rem;">
+     <col span="1" style="min-width: 3rem;">
+     <col span="1" style="min-width: 4rem;">
+     <col span="1" style="min-width: 7rem;">
+  </colgroup>
   <thead>
     <tr style="text-align: left;">
-      <th></th>
+      <th>Model</th>
       <th>Type</th>
       <th>Num Params</th>
       <th>BEAR</th>
-      <th>BEAR<sub>1:1</sub></th>
-      <th>BEAR<sub>N:1</sub></th>
-    </tr>
-    <tr>
-      <th>Model</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -65,31 +61,23 @@
       <td>CLM</td>
       <td>13b</td>
       <td>&#8199;66.9%&#8199;&plusmn;<small>&#8199;1.0%</small></td>
-      <td>&#8199;66.5%&#8199;&plusmn;<small>&#8199;1.6%</small></td>
-      <td>&#8199;67.0%&#8199;&plusmn;<small>&#8199;1.1%</small></td>
     </tr>
     <tr>
       <th>Mistral-7B-v0.1</th>
       <td>CLM</td>
       <td>7.0b</td>
       <td>&#8199;65.4%&#8199;&plusmn;<small>&#8199;1.1%</small></td>
-      <td>&#8199;64.5%&#8199;&plusmn;<small>&#8199;1.2%</small></td>
-      <td>&#8199;65.5%&#8199;&plusmn;<small>&#8199;1.1%</small></td>
     </tr>
     <tr>
       <th>gemma-7b</th>
       <td>CLM</td>
       <td>7.0b</td>
       <td>&#8199;63.7%&#8199;&plusmn;<small>&#8199;1.3%</small></td>
-      <td>&#8199;63.5%&#8199;&plusmn;<small>&#8199;0.7%</small></td>
-      <td>&#8199;63.8%&#8199;&plusmn;<small>&#8199;1.4%</small></td>
     </tr>
     <tr>
       <th>Llama-2-7b-hf</th>
       <td>CLM</td>
       <td>7.0b</td>
-      <td>&#8199;62.4%&#8199;&plusmn;<small>&#8199;1.3%</small></td>
-      <td>&#8199;62.2%&#8199;&plusmn;<small>&#8199;1.1%</small></td>
       <td>&#8199;62.4%&#8199;&plusmn;<small>&#8199;1.3%</small></td>
     </tr>
     <tr>
@@ -97,71 +85,53 @@
       <td>CLM</td>
       <td>2.0b</td>
       <td>&#8199;51.5%&#8199;&plusmn;<small>&#8199;1.0%</small></td>
-      <td>&#8199;53.1%&#8199;&plusmn;<small>&#8199;1.3%</small></td>
-      <td>&#8199;51.3%&#8199;&plusmn;<small>&#8199;1.0%</small></td>
     </tr>
     <tr>
       <th>opt-30b</th>
       <td>CLM</td>
       <td>30b</td>
       <td>&#8199;47.9%&#8199;&plusmn;<small>&#8199;0.5%</small></td>
-      <td>&#8199;45.8%&#8199;&plusmn;<small>&#8199;1.0%</small></td>
-      <td>&#8199;48.2%&#8199;&plusmn;<small>&#8199;0.6%</small></td>
     </tr>
     <tr>
       <th>opt-13b</th>
       <td>CLM</td>
       <td>13b</td>
       <td>&#8199;45.4%&#8199;&plusmn;<small>&#8199;0.8%</small></td>
-      <td>&#8199;43.5%&#8199;&plusmn;<small>&#8199;2.1%</small></td>
-      <td>&#8199;45.7%&#8199;&plusmn;<small>&#8199;0.6%</small></td>
     </tr>
     <tr>
       <th>opt-6.7b</th>
       <td>CLM</td>
       <td>6.7b</td>
       <td>&#8199;43.8%&#8199;&plusmn;<small>&#8199;1.1%</small></td>
-      <td>&#8199;42.5%&#8199;&plusmn;<small>&#8199;1.0%</small></td>
-      <td>&#8199;43.9%&#8199;&plusmn;<small>&#8199;1.2%</small></td>
     </tr>
     <tr>
       <th>opt-2.7b</th>
       <td>CLM</td>
       <td>2.7b</td>
       <td>&#8199;37.3%&#8199;&plusmn;<small>&#8199;0.9%</small></td>
-      <td>&#8199;35.6%&#8199;&plusmn;<small>&#8199;0.7%</small></td>
-      <td>&#8199;37.5%&#8199;&plusmn;<small>&#8199;1.0%</small></td>
     </tr>
     <tr>
       <th>opt-1.3b</th>
       <td>CLM</td>
       <td>1.3b</td>
       <td>&#8199;31.5%&#8199;&plusmn;<small>&#8199;0.8%</small></td>
-      <td>&#8199;31.3%&#8199;&plusmn;<small>&#8199;0.6%</small></td>
-      <td>&#8199;31.5%&#8199;&plusmn;<small>&#8199;0.9%</small></td>
     </tr>
     <tr>
       <th>gpt2-xl</th>
       <td>CLM</td>
       <td>1.6b</td>
       <td>&#8199;26.2%&#8199;&plusmn;<small>&#8199;0.7%</small></td>
-      <td>&#8199;24.1%&#8199;&plusmn;<small>&#8199;1.6%</small></td>
-      <td>&#8199;26.5%&#8199;&plusmn;<small>&#8199;0.6%</small></td>
     </tr>
     <tr>
       <th>gpt2-large</th>
       <td>CLM</td>
       <td>812M</td>
       <td>&#8199;22.2%&#8199;&plusmn;<small>&#8199;0.6%</small></td>
-      <td>&#8199;20.1%&#8199;&plusmn;<small>&#8199;1.8%</small></td>
-      <td>&#8199;22.5%&#8199;&plusmn;<small>&#8199;0.5%</small></td>
     </tr>
     <tr>
       <th>roberta-large</th>
       <td>MLM</td>
       <td>355M</td>
-      <td>&#8199;21.5%&#8199;&plusmn;<small>&#8199;0.8%</small></td>
-      <td>&#8199;22.0%&#8199;&plusmn;<small>&#8199;1.1%</small></td>
       <td>&#8199;21.5%&#8199;&plusmn;<small>&#8199;0.8%</small></td>
     </tr>
     <tr>
@@ -169,71 +139,53 @@
       <td>MLM</td>
       <td>335M</td>
       <td>&#8199;19.9%&#8199;&plusmn;<small>&#8199;0.5%</small></td>
-      <td>&#8199;16.6%&#8199;&plusmn;<small>&#8199;1.0%</small></td>
-      <td>&#8199;20.3%&#8199;&plusmn;<small>&#8199;0.5%</small></td>
     </tr>
     <tr>
       <th>opt-350m</th>
       <td>CLM</td>
       <td>350M</td>
       <td>&#8199;19.6%&#8199;&plusmn;<small>&#8199;0.6%</small></td>
-      <td>&#8199;18.6%&#8199;&plusmn;<small>&#8199;1.2%</small></td>
-      <td>&#8199;19.7%&#8199;&plusmn;<small>&#8199;0.6%</small></td>
     </tr>
     <tr>
       <th>gpt2-medium</th>
       <td>CLM</td>
       <td>355M</td>
       <td>&#8199;19.0%&#8199;&plusmn;<small>&#8199;0.8%</small></td>
-      <td>&#8199;16.0%&#8199;&plusmn;<small>&#8199;2.6%</small></td>
-      <td>&#8199;19.4%&#8199;&plusmn;<small>&#8199;0.6%</small></td>
     </tr>
     <tr>
       <th>bert-base-cased</th>
       <td>MLM</td>
       <td>109M</td>
       <td>&#8199;18.4%&#8199;&plusmn;<small>&#8199;0.4%</small></td>
-      <td>&#8199;15.0%&#8199;&plusmn;<small>&#8199;1.1%</small></td>
-      <td>&#8199;18.8%&#8199;&plusmn;<small>&#8199;0.4%</small></td>
     </tr>
     <tr>
       <th>roberta-base</th>
       <td>MLM</td>
       <td>125M</td>
       <td>&#8199;16.4%&#8199;&plusmn;<small>&#8199;0.7%</small></td>
-      <td>&#8199;15.8%&#8199;&plusmn;<small>&#8199;1.8%</small></td>
-      <td>&#8199;16.5%&#8199;&plusmn;<small>&#8199;0.8%</small></td>
     </tr>
     <tr>
       <th>opt-125m</th>
       <td>CLM</td>
       <td>125M</td>
       <td>&#8199;16.4%&#8199;&plusmn;<small>&#8199;0.5%</small></td>
-      <td>&#8199;14.0%&#8199;&plusmn;<small>&#8199;1.3%</small></td>
-      <td>&#8199;16.7%&#8199;&plusmn;<small>&#8199;0.4%</small></td>
     </tr>
     <tr>
       <th>xlm-roberta-large</th>
       <td>MLM</td>
       <td>561M</td>
       <td>&#8199;14.3%&#8199;&plusmn;<small>&#8199;0.3%</small></td>
-      <td>&#8199;14.9%&#8199;&plusmn;<small>&#8199;1.7%</small></td>
-      <td>&#8199;14.3%&#8199;&plusmn;<small>&#8199;0.5%</small></td>
     </tr>
     <tr>
       <th>gpt2</th>
       <td>CLM</td>
       <td>137M</td>
       <td>&#8199;13.5%&#8199;&plusmn;<small>&#8199;0.8%</small></td>
-      <td>&#8199;&#8199;9.4%&#8199;&plusmn;<small>&#8199;2.1%</small></td>
-      <td>&#8199;14.0%&#8199;&plusmn;<small>&#8199;0.7%</small></td>
     </tr>
     <tr>
       <th>xlm-roberta-base</th>
       <td>MLM</td>
       <td>279M</td>
-      <td>&#8199;11.4%&#8199;&plusmn;<small>&#8199;0.2%</small></td>
-      <td>&#8199;11.4%&#8199;&plusmn;<small>&#8199;1.1%</small></td>
       <td>&#8199;11.4%&#8199;&plusmn;<small>&#8199;0.2%</small></td>
     </tr>
     <tr>
@@ -241,11 +193,10 @@
       <td>-</td>
       <td>-</td>
       <td>&#8199;&#8199;4.7%</td>
-      <td>&#8199;&#8199;1.7%</td>
-      <td>&#8199;&#8199;5.1%</td>
     </tr>
   </tbody>
 </table>
+      </div>
     </section>
     <section class="shadow-box">
       <div style="text-align: right;"><span class="badge acl">Accepted at NAACL 2024</span></div>
