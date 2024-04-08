@@ -250,7 +250,7 @@ result = evaluator.evaluate_dataset(bear, batch_size=32, save_path="results/gpt2
 # Show the overall accuracy
 print(result.get_metrics("accuracy", accumulate_all=True))</code></pre>
 
-      <p>This example script outputs the accuracy accumulated over all relations weighted by the number of instances (this is what we call the "BEAR-score") as a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html">pandas.Series</a>:</p>
+      <p>This example script outputs the accuracy accumulated over all relations weighed by the number of instances (this is what we call the "BEAR-score") as a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html">pandas.Series</a>:</p>
       <pre><code class="language-plaintext">accuracy            0.149528
 num_instances    7731.000000
 dtype: float64</code></pre>
