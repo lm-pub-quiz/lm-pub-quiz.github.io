@@ -5,16 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LM Pub Quiz</title>
 
-  <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
   <meta property="og:title" content="LM Pub Quiz" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://lm-pub-quiz.github.io/" />
   <meta property="og:image" content="https://lm-pub-quiz.github.io/media/preview.png" />
 
+  <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- and it's easy to individually load additional languages -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+
+<script>hljs.highlightAll();</script>
 </head>
 <body>
     <header>
@@ -216,17 +223,43 @@
         </a>
       </p>
     </section>
-    <section>
-      <figure class="shadow-box">
+
+    <section class="shadow-box">
+      <figure>
         <img src="./media/accuracy_by_model_size_bear.svg" width="100%" alt="Illustration of how LM Pub Quiz evaluates LMs." style="max-width: 600px;">
         <figcaption>Accuracy of various models on the BEAR dataset.</figcaption> 
       </figure>
     </section>
 
     <section class="shadow-box">
+      <h2>Example Usage</h2>
+      <p>Install the package via pip:</p>
+      <pre><code class="language-bash">pip install lm-pub-quiz</code></pre>
+      <p>Evaluate a model on BEAR:</p>
+      <pre><code class="language-python">from lm_pub_quiz import Dataset, Evaluator
+
+# Load the dataset
+bear = Dataset.from_name("BEAR")
+
+# Load the model
+evaluator = Evaluator.from_model("gpt2", model_type="CLM", device="cuda:0")
+
+# Run the evaluation
+result = evaluator.evaluate_dataset(bear, batch_size=32, save_path="results/gpt2")
+
+# Show the overall accuracy
+print(result.get_metrics("accuracy", accumulate_all=True))</code></pre>
+
+      <p>This example script outputs the accuracy accumulated over all relations weighted by the number of instances (this is what we call the "BEAR-score") as a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html">pandas.Series</a>:</p>
+      <pre><code class="language-plaintext">accuracy            0.149528
+num_instances    7731.000000
+dtype: float64</code></pre>
+    </section>
+
+    <section class="shadow-box">
       <h2>Citation</h2>
       <p>When using the dataset or library, please cite the following paper:</p>
-      <pre>@misc{wilandBEARUnifiedFramework2024,
+      <pre><code class="language-plaintext">@misc{wilandBEARUnifiedFramework2024,
   title = {{{BEAR}}: {{A Unified Framework}} for {{Evaluating Relational Knowledge}} in {{Causal}} and {{Masked Language Models}}},
   shorttitle = {{{BEAR}}},
   author = {Wiland, Jacek and Ploner, Max and Akbik, Alan},
@@ -235,7 +268,8 @@
   eprint = {2404.04113},
   publisher = {arXiv},
   url = {http://arxiv.org/abs/2404.04113},
-}</pre>
+}</code></pre>
+      <p>For more details, visit the <a href="https://lm-pub-quiz.github.io/lm-pub-quiz/">documentation</a>.</p>
     </section>
 
     <section class="contributors-section">

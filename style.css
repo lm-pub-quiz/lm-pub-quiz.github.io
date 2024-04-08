@@ -84,7 +84,7 @@ header div.title-div h1 {
 header div.title-div span.title-lm {
   font-family: polya;
   font-weight: normal;
-  font-size: 6rem;
+  font-size: 6.35rem;
 }
 
 header div.title-div span.title-pq {
@@ -206,4 +206,8 @@ div.contributor-card p.contributor-role {
   text-align: center;
   font-weight: lighter;
   margin-bottom: 1rem;
+}
+
+section pre {
+  padding: 0;
 }
