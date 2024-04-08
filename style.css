@@ -1,3 +1,14 @@
+@font-face {
+    font-family: nauert;
+    src: url("media/fonts/NauertRegular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: polya;
+    src: url("media/fonts/polya-regular.regular.otf") format("opentype");
+}
+
+
 :root {
   --primary-color: #003366;
   --nc-lk-1: var(--primary-color);
@@ -46,6 +57,56 @@ h4 {
 	font-size: 1.2rem;
 }
 
+header {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2rem;
+  row-gap: 2rem;
+}
+
+header div.title-div {
+  flex: 0 0 auto;
+}
+
+header div.subtitle-div {
+  flex: 1 0 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+header div.title-div h1 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+header div.title-div span.title-lm {
+  font-family: polya;
+  font-weight: normal;
+  font-size: 6rem;
+}
+
+header div.title-div span.title-pq {
+  font-family: nauert;
+  font-weight: normal;
+  font-size: 2.2rem;
+}
+
+header h2.subtitle {
+  font-weight: normal;
+  font-size: 1.3em;
+  margin-bottom: 1em;
+}
+
+header nav {
+  color: var(--nc-tx-2) ;
+  margin-bottom: 0.5rem;
+}
+
+header nav a {
+  white-space: nowrap;
+}
 
 body {
   background-color: var(--nc-bg-2);
@@ -54,31 +115,6 @@ body {
 
 section {
   background-color: var(--nc-bg-1);
-}
-
-header {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.logo-div {
-  flex: 0 0 145px;
-  margin-right: 2rem;
-}
-
-.title-div {
-  flex: 1 0 350px;
-}
-
-header nav {
-  color: var(--nc-tx-2) 
-}
-
-header h2.subtitle {
-  font-weight: normal;
-  font-size: 1.3em;
-  padding-bottom: .8em;
-  padding-top: .5rem;
 }
 
 figure {
@@ -117,17 +153,6 @@ figcaption {
 
 .dataframe {
   font-size: .8rem;
-}
-
-.logo {
-  width: 145px;
-  object-fit: fill;
-  height: 145px;
-}
-
-.logo.blackboard-logo {
-  border-radius: 50%;
-  box-shadow: 2px 2px 8px 8px rgba(0,0,0,0.1);
 }
 
 .contributors-section {
