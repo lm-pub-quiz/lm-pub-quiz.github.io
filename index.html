@@ -245,7 +245,7 @@ bear = Dataset.from_name("BEAR")
 evaluator = Evaluator.from_model("gpt2", model_type="CLM", device="cuda:0")
 
 # Run the evaluation
-result = evaluator.evaluate_dataset(bear, batch_size=32, save_path="results/gpt2")
+result = evaluator.evaluate_dataset(bear, template_index=0, batch_size=32, save_path="results/gpt2")
 
 # Show the overall accuracy
 print(result.get_metrics("accuracy", accumulate_all=True))</code></pre>
