@@ -155,8 +155,12 @@ figcaption {
   font-size: .8rem;
 }
 
-.leaderboard tr td:nth-child(2), .leaderboard tr td:nth-child(3), .leaderboard tr td:nth-child(4) {
+.leaderboard td, .leaderboard th {
   text-align: center;
+}
+
+.leaderboard td:first-child, .leaderboard th:first-child { 
+  text-align: left;
 }
 
 .contributors-section {
