@@ -159,9 +159,50 @@ figcaption {
   text-align: center;
 }
 
+.leaderboard th {
+  position: relative;
+}
+
 .leaderboard td:first-child, .leaderboard th:first-child { 
   text-align: left;
 }
+
+.leaderboard th {
+	cursor: pointer;
+}
+
+.leaderboard th::after {
+	content: "\25b4";
+  display: none;
+  position: absolute;
+  right: 1em;
+}
+
+.leaderboard th:hover::after {
+  display: inline;
+}
+
+.leaderboard .th-sort-asc::after {
+	content: "\25b4";
+  display: inline;
+}
+
+.leaderboard .th-sort-desc::after {
+	content: "\25be";
+  display: inline;
+}
+
+.leaderboard th::after,
+.leaderboard th::after {
+	margin-left: 5px;
+}
+
+.leaderboard .th-sort-asc,
+.leaderboard .th-sort-desc {
+	background: rgba(0, 0, 0, 0.1);
+}
+
+
 
 .contributors-section {
   margin-top: 3rem;
