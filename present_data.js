@@ -37,7 +37,7 @@ function format_accuracy(accuracy) {
 function params_format(x) {
   if (x == "-") return x; 
   else if (x >= 1e12) return (x / 1e12).toFixed(2) + "T";
-  else if (x >= 1e9) return (x / 1e9).toFixed(1) + "B";
+  else if (x >= 1e9) return (x / 1e9).toFixed(1) + "b";
   else if (x >= 1e6) return (x / 1e6).toFixed(0) + "M";
   else if (x >= 1e3) return (x / 1e6).toFixed(0) + "K";
   else return x;
@@ -186,8 +186,12 @@ function mouseover_model_family(model_family) {
     .attr("opacity", 1);*/
   
 
-  // Raising the datapoint itself messes with the mouseout event, hence we lower every other element
-  scatter_plot.selectAll(`.model-datapoint:not(.model-datapoint-${model_family})`).lower();
+  // Raising the datapoint itself somehow messes with the mouseout event, hence we lower every other element
+  var selection = scatter_plot.selectAll(`.model-datapoint:not(.model-datapoint-${model_family})`);
+  selection.lower();
+  selection.order(); // reorder elements to prevent shifting between them
+
+  //datapoints.raise().on("mouseout", () => mouseout_model_family(model_family));
 }
 
 function mouseout_model_family(model_family) {

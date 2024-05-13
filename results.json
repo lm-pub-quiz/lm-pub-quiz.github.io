@@ -250,5 +250,27 @@
         "accuracy":{
             "mean":0.0468244729
         }
+    },
+    {
+        "model_name": "Meta-Llama-3-8B",
+        "model_url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B",
+        "model_family": "llama-3",
+        "model_type": "CLM",
+        "num_params": 8000000000,
+        "accuracy": {
+          "mean": 0.686,
+          "sem": 0.022
+        }
+    },
+    {
+        "model_name": "Meta-Llama-3-8B-Instruct",
+        "model_url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct",
+        "model_family": "llama-3",
+        "model_type": "CLM-IT",
+        "num_params": 8000000000,
+        "accuracy": {
+            "mean": 0.641,
+            "sem": 0.026
+         }
     }
 ]
