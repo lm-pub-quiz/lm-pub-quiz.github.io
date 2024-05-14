@@ -258,8 +258,8 @@
         "model_type": "CLM",
         "num_params": 8000000000,
         "accuracy": {
-          "mean": 0.686,
-          "sem": 0.022
+          "mean": 0.68594,
+          "sem": 0.012737
         }
     },
     {
@@ -269,8 +269,8 @@
         "model_type": "CLM-IT",
         "num_params": 8000000000,
         "accuracy": {
-            "mean": 0.641,
-            "sem": 0.026
+            "mean": 0.64084,
+            "sem":  0.014853
          }
     }
 ]
