@@ -4,7 +4,8 @@
         "model_url":"https:\/\/huggingface.co\/meta-llama\/Llama-2-13b-hf",
         "model_family":"llama",
         "model_type":"CLM",
-        "num_params":13000000000.0,
+        "num_params":13e9,
+        "num_tokens": 2e12,
         "accuracy":{
             "mean":0.6691674212,
             "sem":0.0103437271
@@ -15,7 +16,8 @@
         "model_url":"https:\/\/huggingface.co\/meta-llama\/Llama-2-7b-hf",
         "model_family":"llama",
         "model_type":"CLM",
-        "num_params":7000000000.0,
+        "num_params":7e9,
+        "num_tokens": 2e12,
         "accuracy":{
             "mean":0.6239813737,
             "sem":0.0130318022
@@ -26,7 +28,7 @@
         "model_url":"https:\/\/huggingface.co\/mistralai\/Mistral-7B-v0.1",
         "model_family":"mistral",
         "model_type":"CLM",
-        "num_params":7000000000.0,
+        "num_params":7e9,
         "accuracy":{
             "mean":0.6537317294,
             "sem":0.0111468343
@@ -37,7 +39,7 @@
         "model_url":"https:\/\/huggingface.co\/bert-base-cased",
         "model_family":"bert",
         "model_type":"MLM",
-        "num_params":109000000.0,
+        "num_params":109e6,
         "accuracy":{
             "mean":0.1839348079,
             "sem":0.0036593149
@@ -48,7 +50,7 @@
         "model_url":"https:\/\/huggingface.co\/bert-large-cased",
         "model_family":"bert",
         "model_type":"MLM",
-        "num_params":335000000.0,
+        "num_params":335e6,
         "accuracy":{
             "mean":0.199111801,
             "sem":0.0048284658
@@ -59,7 +61,7 @@
         "model_url":"https:\/\/huggingface.co\/google\/gemma-2b",
         "model_family":"gemma",
         "model_type":"CLM",
-        "num_params":2000000000.0,
+        "num_params":2e9,
         "accuracy":{
             "mean":0.5153710171,
             "sem":0.0102554649
@@ -70,7 +72,7 @@
         "model_url":"https:\/\/huggingface.co\/google\/gemma-7b",
         "model_family":"gemma",
         "model_type":"CLM",
-        "num_params":7000000000.0,
+        "num_params":7e9,
         "accuracy":{
             "mean":0.6372181262,
             "sem":0.0131199491
@@ -81,7 +83,7 @@
         "model_url":"https:\/\/huggingface.co\/gpt2",
         "model_family":"gpt2",
         "model_type":"CLM",
-        "num_params":137000000.0,
+        "num_params":137e6,
         "accuracy":{
             "mean":0.1349113957,
             "sem":0.0075913133
@@ -92,7 +94,7 @@
         "model_url":"https:\/\/huggingface.co\/gpt2-large",
         "model_family":"gpt2",
         "model_type":"CLM",
-        "num_params":812000000.0,
+        "num_params":812e6,
         "accuracy":{
             "mean":0.2223946881,
             "sem":0.0060671766
@@ -103,7 +105,7 @@
         "model_url":"https:\/\/huggingface.co\/gpt2-medium",
         "model_family":"gpt2",
         "model_type":"CLM",
-        "num_params":355000000.0,
+        "num_params":355e6,
         "accuracy":{
             "mean":0.1901866943,
             "sem":0.0083842388
@@ -114,7 +116,7 @@
         "model_url":"https:\/\/huggingface.co\/gpt2-xl",
         "model_family":"gpt2",
         "model_type":"CLM",
-        "num_params":1600000000.0,
+        "num_params":1600e6,
         "accuracy":{
             "mean":0.2624067607,
             "sem":0.0068037989
@@ -125,7 +127,7 @@
         "model_url":"https:\/\/huggingface.co\/facebook\/opt-1.3b",
         "model_family":"opt",
         "model_type":"CLM",
-        "num_params":1300000000.0,
+        "num_params":1300e6,
         "accuracy":{
             "mean":0.3146207908,
             "sem":0.0084048343
@@ -147,7 +149,7 @@
         "model_url":"https:\/\/huggingface.co\/facebook\/opt-13b",
         "model_family":"opt",
         "model_type":"CLM",
-        "num_params":13000000000.0,
+        "num_params":13e9,
         "accuracy":{
             "mean":0.4542318803,
             "sem":0.0078447074
@@ -158,7 +160,7 @@
         "model_url":"https:\/\/huggingface.co\/facebook\/opt-2.7b",
         "model_family":"opt",
         "model_type":"CLM",
-        "num_params":2700000000.0,
+        "num_params":2700e6,
         "accuracy":{
             "mean":0.3725693097,
             "sem":0.0090487054
@@ -169,7 +171,7 @@
         "model_url":"https:\/\/huggingface.co\/facebook\/opt-30b",
         "model_family":"opt",
         "model_type":"CLM",
-        "num_params":30000000000.0,
+        "num_params":30e9,
         "accuracy":{
             "mean":0.4790669599,
             "sem":0.005280842
@@ -180,7 +182,7 @@
         "model_url":"https:\/\/huggingface.co\/facebook\/opt-350m",
         "model_family":"opt",
         "model_type":"CLM",
-        "num_params":350000000.0,
+        "num_params":350e6,
         "accuracy":{
             "mean":0.1955762515,
             "sem":0.0060867551
@@ -191,7 +193,7 @@
         "model_url":"https:\/\/huggingface.co\/facebook\/opt-6.7b",
         "model_family":"opt",
         "model_type":"CLM",
-        "num_params":6700000000.0,
+        "num_params":6700e6,
         "accuracy":{
             "mean":0.43780451,
             "sem":0.0111271373
@@ -202,7 +204,7 @@
         "model_url":"https:\/\/huggingface.co\/roberta-base",
         "model_family":"roberta",
         "model_type":"MLM",
-        "num_params":125000000.0,
+        "num_params":125e6,
         "accuracy":{
             "mean":0.1644892856,
             "sem":0.007326373
@@ -213,7 +215,7 @@
         "model_url":"https:\/\/huggingface.co\/roberta-large",
         "model_family":"roberta",
         "model_type":"MLM",
-        "num_params":355000000.0,
+        "num_params":355e6,
         "accuracy":{
             "mean":0.2151511232,
             "sem":0.008007598
@@ -224,7 +226,7 @@
         "model_url":"https:\/\/huggingface.co\/xlm-roberta-base",
         "model_family":"xlm-roberta",
         "model_type":"MLM",
-        "num_params":279000000.0,
+        "num_params":279e6,
         "accuracy":{
             "mean":0.1138705644,
             "sem":0.0021609907
@@ -235,7 +237,7 @@
         "model_url":"https:\/\/huggingface.co\/xlm-roberta-large",
         "model_family":"xlm-roberta",
         "model_type":"MLM",
-        "num_params":561000000.0,
+        "num_params":561e6,
         "accuracy":{
             "mean":0.1433191049,
             "sem":0.0032859154
@@ -256,7 +258,7 @@
         "model_url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B",
         "model_family": "llama-3",
         "model_type": "CLM",
-        "num_params": 8000000000,
+        "num_params": 8e9,
         "accuracy": {
           "mean": 0.68594,
           "sem": 0.012737
@@ -267,7 +269,7 @@
         "model_url": "https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct",
         "model_family": "llama-3",
         "model_type": "CLM-IT",
-        "num_params": 8000000000,
+        "num_params": 8e9,
         "accuracy": {
             "mean": 0.64084,
             "sem":  0.014853
