@@ -261,3 +261,7 @@ div.contributor-card p.contributor-role {
 section pre {
   padding: 0;
 }
+
+svg.result-plot {
+  overflow: visible;
+}

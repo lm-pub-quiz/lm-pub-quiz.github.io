@@ -77,7 +77,7 @@
         "num_params":2e9,
         "num_tokens":2e12,
         "size_pretraining_GB":null,
-        "source":"https://cloud.google.com/blog/products/ai-machine-learning/performance-deepdive-of-gemma-on-google-cloud", 
+        "source":"https://cloud.google.com/blog/products/ai-machine-learning/performance-deepdive-of-gemma-on-google-cloud",
         "accuracy":{
             "mean":0.5153710171,
             "sem":0.0102554649
@@ -89,9 +89,9 @@
         "model_family":"gemma",
         "model_type":"CLM",
         "num_params":7e9,
-        "num_tokens":6e12.0,
+        "num_tokens":6e12,
         "size_pretraining_GB":null,
-        "source":"https://huggingface.co/docs/transformers/main/en/model_doc/gemma", 
+        "source":"https://cloud.google.com/blog/products/ai-machine-learning/performance-deepdive-of-gemma-on-google-cloud",
         "accuracy":{
             "mean":0.6372181262,
             "sem":0.0131199491
@@ -311,11 +311,11 @@
         "model_name":"Random Baseline",
         "model_url":null,
         "model_family":"baseline",
-        "model_type":"-",
-        "num_params":"-",
-        "num_tokens":"-",
-        "size_pretraining_GB":"-",
-        "source":"",
+        "model_type":null,
+        "num_params":null,
+        "num_tokens":null,
+        "size_pretraining_GB": null,
+        "source":null,
         "accuracy":{
             "mean":0.0468244729
         }

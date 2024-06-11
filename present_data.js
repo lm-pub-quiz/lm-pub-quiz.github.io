@@ -67,15 +67,17 @@ function sort_table(sort_key, to_ascending) {
         a_value = a.accuracy.mean;
         b_value = b.accuracy.mean;
       } else {
+        if (a.model_name == "Random Baseline") return 1;
+        else if (b.model_name == "Random Baseline") return -1;
+
         a_value = a[sort_key];
         b_value = b[sort_key];
       }
       if (typeof a_value === 'string' || a_value instanceof String) a_value = a_value.toLowerCase();
       if (typeof b_value === 'string' || b_value instanceof String) b_value = b_value.toLowerCase();
 
-
-      if (a_value == "-") return 1;
-      else if (b_value == "-") return -1;
+      if (a_value == null) return 1;
+      else if (b_value == null) return -1;
       else if (to_ascending) return d3.ascending(a_value, b_value);
       else return d3.descending(a_value, b_value);
     }
@@ -129,11 +131,12 @@ const group_y = svg.append("g")
 
 const yAxis = d3.axisLeft(y);
 
+const random_baseline = svg.append("g");
 const line_plot = svg.append("g");
 const scatter_plot = svg.append("g");
+const scatter_plot_hightlight_layer = svg.append("g").attr("pointer-events", "none");
 
 // Add the line for the random baseline
-const random_baseline = svg.append("g");
 
 random_baseline
   .append("line")
@@ -181,7 +184,6 @@ function sorted_datapoints(datapoints) {
   datapoints = datapoints.slice(0);
 
   datapoints.sort((a, b) => (a == b) ? (a.accuracy.mean - b.accuracy.mean) : (a[data_key] - b[data_key]));
-  console.log(datapoints);
   return datapoints;
 }
 
@@ -195,7 +197,10 @@ function update_axis() {
   var xmax = Math.max(Math.max(...xValues), 10);
   var ymax = Math.max(...data.map((d) => d.accuracy.mean));
 
-  x.domain([xmin * 0.7, xmax * 1.42]).range([marginLeft, width - marginRight]);
+  var xmin_log = Math.log(xmin);
+  var xmax_log = Math.log(xmax);
+
+  x.domain([Math.exp(xmin_log - 0.1*(xmax_log - xmin_log)), Math.exp(xmax_log + 0.1*(xmax_log - xmin_log))]).range([marginLeft, width - marginRight]);
   y.domain([0, ymax + 0.05]).range([height - marginBottom, marginTop]);
 
   group_x.transition().duration(400).call(xAxis);
@@ -279,11 +284,10 @@ function setup_plot() {
     if (d[data_key]) {
       return `translate(${x(d[data_key])}, ${y(d.accuracy.mean)})`
     } else {
-      return `translate(${width/2}, ${5*height})`
+      return `translate(${width/2}, ${height-marginBottom})`
     }
   }
 
-  // Set up highlighting for the datapoints
   scatter_plot
     .selectAll("g.datapoint")
     .data(window.datapoints)
@@ -294,7 +298,8 @@ function setup_plot() {
           .on("mouseover", (e, d, i) => hightlight_model_family(d.model_family))
           .on("mouseout", (e, d, i) => dehiglight_model_family(d.model_family))
           .attr("opacity", (d) => (d[data_key]) ? 1.0 : 0.0)
-          .attr("transform", transform_string);
+          .attr("transform", transform_string)
+          .attr("style", (d) => (d[data_key]) ? "" : "display: none");
 
         // Add the error bars
         annotatedDatapoint
@@ -317,6 +322,37 @@ function setup_plot() {
             .attr("transform", (d) => `scale(0.7, 0.7)`)
             .attr("fill", (d) => family_color(d.model_family))
             .append("svg:title").text((d) => `${d.model_name}: ${d.accuracy.mean.toPrecision(3)}`);
+      },
+      function (update) {
+        update.transition().duration(400)
+          .attr("transform", transform_string)
+          .attr("opacity", (d) => (d[data_key]) ? 1.0 : 0.0)
+          .transition()
+          .attr("style", (d) => (d[data_key]) ? "" : "display: none");
+
+      }
+    )
+
+  scatter_plot_hightlight_layer
+    .selectAll("g.datapoint")
+    .data(window.datapoints)
+    .join(
+      function (enter) {
+        var annotatedDatapoint = enter.append("g")
+          .attr("class", (d) => `datapoint datapoint-${d.model_family}`)
+          .attr("opacity", 0.0)
+          .attr("transform", transform_string)
+          .attr("style", (d) => (d[data_key]) ? "" : "display: none");
+
+        // Add the scatter plot symbols
+        annotatedDatapoint 
+          .append("path")
+            .attr("class", "datapoint-symbol")
+            .attr("d", symbol.type((d) => {
+              if (d.model_type.startsWith("MLM")) {return d3.symbolSquare} else {return d3.symbolCircle}
+            }))
+            .attr("transform", (d) => `scale(0.7, 0.7)`)
+            .attr("fill", (d) => family_color(d.model_family))
 
         // Add the model names
         annotatedDatapoint
@@ -326,17 +362,14 @@ function setup_plot() {
             .attr("transform", "rotate(20)")
             .attr("dx", 8)
             .attr("dy", 4)
-            .attr("font-size", 10)
-            .attr("style", "display: none;")
-            .attr("opacity", 0.0);
+            .attr("font-size", 10);
       },
       function (update) {
         update.transition().duration(400)
           .attr("transform", transform_string)
-          .attr("opacity", (d) => (d[data_key]) ? 1.0 : 0.0);
+          .attr("style", (d) => (d[data_key]) ? "" : "display: none");
       }
     )
-    
   random_baseline
     .attr("transform", `translate(0, ${y(random_baseline_accuracy)})`);
 
@@ -381,30 +414,23 @@ xAxisKeySelect.addEventListener("change", function(event) {
 /* Animate hightlighting of model families */
 
 function hightlight_model_family(model_family) {
+  console.log(model_family)
   line_plot.select(`.family-line-${model_family}`)
     .transition().duration(200)
     .attr("stroke-width", 2);
 
   // Hightlight all scatter plots
-  var datapoints = scatter_plot.selectAll(`.datapoint-${model_family}`);
+  var dp = scatter_plot_hightlight_layer.selectAll(`.datapoint-${model_family}`)
 
-  datapoints
-    .selectAll("path.datapoint-symbol")
-    .transition()
-    .duration(100)
-    .attr("transform", "scale(1.2, 1.2)");
-
-  datapoints
-    .selectAll("text.datapoint-annotation")
-    .attr("style", "")
+  dp.attr("visible", "visible")
     .transition()
     .duration(100)
     .attr("opacity", 1.0);
 
-  // Raising the datapoint itself somehow messes with the mouseout event, hence we lower every other element
-  var selection = scatter_plot.selectAll(`.datapoint:not(.datapoint-${model_family})`);
-  selection.lower();
-  selection.order(); // reorder elements to prevent shifting between them
+  dp.selectAll("path.datapoint-symbol")
+      .transition()
+      .duration(100)
+      .attr("transform", "scale(1, 1)");
 }
 
 function dehiglight_model_family(model_family) {
@@ -412,18 +438,18 @@ function dehiglight_model_family(model_family) {
     .transition().duration(200)
     .attr("stroke-width", 1);
   
-  var datapoints = scatter_plot.selectAll(`.datapoint-${model_family}`);
-  datapoints.selectAll("path.datapoint-symbol")
-    .transition()
-    .duration('200')
-    .attr("transform", "scale(0.7, 0.7)");
+  var dp = scatter_plot_hightlight_layer.selectAll(`.datapoint-${model_family}`);
 
-  datapoints.selectAll("text.datapoint-annotation")
-    .transition()
-    .duration("100")
+  dp.transition()
+    .duration(200)
     .attr("opacity", 0.0)
     .transition()
-    .attr("style", "display: none");
+    .attr("visible", "none");
+
+  dp.selectAll("path.datapoint-symbol")
+      .transition()
+      .duration(200)
+      .attr("transform", "scale(0.7, 0.7)");
 }
 
 
