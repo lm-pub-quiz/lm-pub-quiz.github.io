@@ -324,11 +324,12 @@ function setup_plot() {
             .append("svg:title").text((d) => `${d.model_name}: ${d.accuracy.mean.toPrecision(3)}`);
       },
       function (update) {
-        update.transition().duration(400)
-          .attr("transform", transform_string)
-          .attr("opacity", (d) => (d[data_key]) ? 1.0 : 0.0)
+        update
+          .attr("style", (d) => (d[data_key]) ? "" : "display: none")
           .transition()
-          .attr("style", (d) => (d[data_key]) ? "" : "display: none");
+          .duration(400)
+          .attr("transform", transform_string)
+          .attr("opacity", (d) => (d[data_key]) ? 1.0 : 0.0);
 
       }
     )
