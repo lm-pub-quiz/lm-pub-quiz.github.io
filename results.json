@@ -259,6 +259,7 @@
         "model_family": "llama-3",
         "model_type": "CLM",
         "num_params": 8e9,
+        "num_tokens": 15e12,
         "accuracy": {
           "mean": 0.68594,
           "sem": 0.012737
@@ -270,6 +271,7 @@
         "model_family": "llama-3",
         "model_type": "CLM-IT",
         "num_params": 8e9,
+        "num_tokens": 15e12,
         "accuracy": {
             "mean": 0.64084,
             "sem":  0.014853

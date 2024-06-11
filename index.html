@@ -22,6 +22,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <link rel="preload" href="present_data.js" as="script" />
+  <link rel="preload" href="results.json" as="script" />
 
   <script>hljs.highlightAll();</script>
 </head>
@@ -59,14 +61,16 @@
   <colgroup>
      <col span="1" style="min-width: 4rem;">
      <col span="1" style="min-width: 3rem;">
+     <col span="1" style="min-width: 3rem;">
+     <col span="1" style="min-width: 3rem;">
      <col span="1" style="min-width: 4rem;">
-     <col span="1" style="min-width: 7rem;">
   </colgroup>
   <thead>
     <tr style="text-align: left;">
       <th data-sort-key="model_name">Model</th>
       <th data-sort-key="model_type">Type</th>
       <th data-sort-key="num_params">Num Params</th>
+      <th data-sort-key="num_tokens">Num Tokens</th>
       <th data-sort-key="accuracy">BEAR</th>
     </tr>
   </thead>
@@ -94,7 +98,13 @@
         <div style="width:100%">
           <svg class="result-plot" preserveAspectRatio="xMinYMin meet"></svg>
         </div>
-        <figcaption>Accuracy of various models on the BEAR dataset.</figcaption> 
+        <figcaption>
+          Accuracy of various models on the BEAR dataset over the
+          <select id="xAxisKeySelect">
+            <option value="num_params">number of parameters</option>
+            <option value="num_tokens">number of tokens</option>
+          </select>
+          .</figcaption> 
       </figure>
     </section>
 

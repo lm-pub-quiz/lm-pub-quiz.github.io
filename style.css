@@ -153,6 +153,7 @@ figcaption {
 
 .leaderboard {
   font-size: .8rem;
+  min-height: 400px;
 }
 
 .leaderboard td, .leaderboard th {

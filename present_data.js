@@ -12,6 +12,7 @@ d3.format = myFormat;
 
 
 /* LEADERBOARD TABLE */
+
 var leaderboard = d3.select("table.leaderboard")
 
 var table_body = leaderboard.select("tbody");
@@ -34,16 +35,16 @@ function format_accuracy(accuracy) {
   }
 }
 
-function params_format(x) {
+function params_format(x, precision=null) {
   if (x == "-") return x; 
-  else if (x >= 1e12) return (x / 1e12).toFixed(2) + "T";
-  else if (x >= 1e9) return (x / 1e9).toFixed(1) + "b";
-  else if (x >= 1e6) return (x / 1e6).toFixed(0) + "M";
-  else if (x >= 1e3) return (x / 1e6).toFixed(0) + "K";
+  else if (x >= 1e12) return (x / 1e12).toFixed(precision !== null ? precision : 1) + "T";
+  else if (x >= 1e9) return (x / 1e9).toFixed(precision !== null ? precision : 1) + "b";
+  else if (x >= 1e6) return (x / 1e6).toFixed(precision !== null  ? precision : 0) + "M";
+  else if (x >= 1e3) return (x / 1e6).toFixed(precision !== null  ? precision : 0) + "K";
   else return x;
 }
 
-function populate_table(data) {
+function setup_table(data) {
   data = data.sort((a, b) => b.accuracy.mean - a.accuracy.mean)
 
   var row = table_body.selectAll("tr")
@@ -54,6 +55,7 @@ function populate_table(data) {
   row.append("td").append("a").attr("href", (d) => d.model_url).text((d) => d.model_name);
   row.append("td").text((d) => d.model_type);
   row.append("td").text((d) => params_format(d.num_params));
+  row.append("td").text((d) => params_format(d.num_tokens, 0));
   row.append("td").html((d) => format_accuracy(d.accuracy));
 }
 
@@ -93,11 +95,10 @@ leaderboard.selectAll("th").on("click", (e) => {
   sort_table(sort_key, to_ascending);
 })
 
+
+
 /* PERFROMANCE PLOT */
 
-var symbol = d3.symbol();
-
-// Declare the chart dimensions and margins.
 const width = 600;
 const height = 300;
 const marginTop = 20;
@@ -105,28 +106,28 @@ const marginRight = 20;
 const marginBottom = 30;
 const marginLeft = 40;
 
-const xmin = 90e6, xmax=45e9;
 
+// Setup the static elements
 
-// Set up the plot
+var symbol = d3.symbol();
 
 const svg = d3.selectAll("svg.result-plot").attr("viewBox","0 0 " + width + " " + height);
 
-
 // Set up the axis
-const x = d3.scaleLog().domain([xmin, xmax]).range([marginLeft, width - marginRight]);
-const y = d3.scaleLinear().domain([0, 0.7]).range([height - marginBottom, marginTop]);
+const x = d3.scaleLog().range([marginLeft, width - marginRight]);
+const y = d3.scaleLinear().range([height - marginBottom, marginTop]);
 
-const xAxis = svg.append("g")
-  .attr("transform", `translate(0,${y(0)})`)
-  .attr("opacity", 0.7)
-  .call(d3.axisBottom(x)
-  .tickSizeOuter(0).tickValues([125e6, 300e6, 1e9, 3e9, 7e9, 13e9, 30e9]));
+const group_x = svg.append("g")
+  .attr("transform", `translate(0,${height - marginBottom})`)
+  .attr("opacity", 0.7);
 
-const yAxis = svg.append("g")
-  .attr("transform", `translate(${x(xmin)},0)`)
+const xAxis = d3.axisBottom(x).tickSizeOuter(0);
+
+const group_y = svg.append("g")
+  .attr("transform", `translate(${marginLeft},0)`)
   .attr("opacity", 0.7)
-  .call(d3.axisLeft(y));
+
+const yAxis = d3.axisLeft(y);
 
 const line_plot = svg.append("g");
 const scatter_plot = svg.append("g");
@@ -136,8 +137,8 @@ const random_baseline = svg.append("g");
 
 random_baseline
   .append("line")
-  .attr("x1", x(xmin))
-  .attr("x2", x(xmax))
+  .attr("x1", marginLeft)
+  .attr("x2", width - marginRight)
   .attr("y1", 0)
   .attr("y2", 0)
   .attr("fill", "none")
@@ -146,7 +147,7 @@ random_baseline
   .attr("stroke-width", 1);
 
 random_baseline.append("text")
-  .attr("x", x(xmax))
+  .attr("x", width - marginRight)
   .attr("y", -4)
   .attr("fill", "gray")
   .text("Random Baseline")
@@ -155,164 +156,199 @@ random_baseline.append("text")
 
 // Add a legend-group
 const legend_dy = 15;
-var legend = svg.append("g")
-  .attr("transform", `translate(${marginLeft + 20} ${marginTop + legend_dy/2})`);
+const legend = svg.append("g").attr("transform", `translate(${marginLeft + 20} ${marginTop + legend_dy/2})`);
 
-function mouseover_model_family(model_family) {
-  line_plot.select(`.family-line-${model_family}`)
-    .transition().duration(200)
-    .attr("stroke-width", 2);
 
-  // Hightlight all scatter plots
-  var datapoints = scatter_plot.selectAll(`.model-datapoint-${model_family}`);
-
-  datapoints
-    .selectAll("path")
-    .transition()
-    .duration('100')
-    .attr("transform", "scale(1.2, 1.2)");
-
-  datapoints
-    .selectAll("text")
-    .attr("style", "")
-    .transition()
-    .duration("100")
-    .attr("opacity", 1.0);
-
-  /*legend.select(`.legend-element-${model_family}`)
-    .select("text")
-    .transition()
-    .duration(200)
-    .attr("opacity", 1);*/
+function prepare_data(data) {
+  window.random_baseline_accuracy = data.filter((d) => d.model_name == "Random Baseline")[0].accuracy.mean;
+  window.datapoints = data.filter((d) => d.model_name != "Random Baseline");
   
+  model_families = {};
 
-  // Raising the datapoint itself somehow messes with the mouseout event, hence we lower every other element
-  var selection = scatter_plot.selectAll(`.model-datapoint:not(.model-datapoint-${model_family})`);
-  selection.lower();
-  selection.order(); // reorder elements to prevent shifting between them
-
-  //datapoints.raise().on("mouseout", () => mouseout_model_family(model_family));
-}
-
-function mouseout_model_family(model_family) {
-  line_plot.select(`.family-line-${model_family}`)
-    .transition().duration(200)
-    .attr("stroke-width", 1);
-  
-  var datapoints = scatter_plot.selectAll(`.model-datapoint-${model_family}`);
-  datapoints.selectAll("path")
-    .transition()
-    .duration('200')
-    .attr("transform", "scale(0.7, 0.7)");
-
-  datapoints.selectAll("text")
-    .transition()
-    .duration("100")
-    .attr("opacity", 0.0)
-    .transition()
-    .attr("style", "display: none");
-
-  /*legend.select(`.legend-element-${model_family}`)
-    .select("text")
-    .transition()
-    .duration(100)
-    .attr("opacity", 0.7);*/
-}
-
-function populate_plot(data) {
-  random_baseline_accuracy = data.filter((d) => d.model_name == "Random Baseline")[0].accuracy.mean;
-  data = data.filter((d) => d.model_name != "Random Baseline");
-
-  var model_families = {};
-
-  data.forEach((d) => {
+  window.datapoints.forEach((d) => {
     if (!(d.model_family in model_families)) {
       model_families[d.model_family] = [];
     }
     model_families[d.model_family].push(d);
   });
 
-  model_families = Object.values(model_families).map(f => f.sort((a, b) => a.num_params - b.num_params))
+  window.model_families = Object.values(model_families);
+}
 
-  // Add the legend
-  // Usually you have a color scale in your chart already
-  var family_color = d3.scaleOrdinal()
-    .domain(model_families.map(f => f[0].modle_family))
-    .range(d3.schemeTableau10);
+
+function sorted_datapoints(datapoints) {
+  var data_key = xAxisKeySelect.value;
+  datapoints = datapoints.slice(0);
+
+  datapoints.sort((a, b) => (a == b) ? (a.accuracy.mean - b.accuracy.mean) : (a[data_key] - b[data_key]));
+  console.log(datapoints);
+  return datapoints;
+}
+
+function update_axis() {
+  var data_key = xAxisKeySelect.value;
+  var data = window.datapoints;
+
+  let xValues = data.map((d) => d[data_key]).filter(x => !!x);
+
+  var xmin = Math.max(Math.min(...xValues), 1);
+  var xmax = Math.max(Math.max(...xValues), 10);
+  var ymax = Math.max(...data.map((d) => d.accuracy.mean));
+
+  x.domain([xmin * 0.7, xmax * 1.42]).range([marginLeft, width - marginRight]);
+  y.domain([0, ymax + 0.05]).range([height - marginBottom, marginTop]);
+
+  group_x.transition().duration(400).call(xAxis);
+  group_y.transition().duration(400).call(yAxis);
+}
+
+function update_plot() {
+  var data_key = xAxisKeySelect.value;
+
+  update_axis();
 
   line_plot
     .selectAll(".family-line")
     .data(model_families)
     .enter()
     .append("path")
-      .attr("class", d => `family-line family-line-${d[0].model_family}`)
-      .attr("stroke", "gray")
-      .attr("fill", "none")
-      .attr("stroke-width", 1)
-      .attr("stroke-dasharray", "2,2")
       .attr("d", d3.line()
-        .x((d) => x(d.num_params))
+        .x((d) => x(d[xAxisKeySelect.value]))
         .y((d) => y(d.accuracy.mean))
       );
       /*.on("mouseover", (e, d, i) => mouseover_model_family(d[0].model_family))
       .on("mouseout", (e, d, i) => mouseout_model_family(d[0].model_family));*/
 
-  var datapoint_elements = scatter_plot
-    .selectAll(".model-datapoint")
-    .data(data)
-    .enter()
-    .append("g")
-      .attr("class", (d) => `model-datapoint model-datapoint-${d.model_family}`)
-      .on("mouseover", (e, d, i) => mouseover_model_family(d.model_family))
-      .on("mouseout", (e, d, i) => mouseout_model_family(d.model_family));
-
   // Add the error bars
   datapoint_elements
     .append("line")
-      .attr("x1", (d) => x(d.num_params))
-      .attr("x2", (d) => x(d.num_params))
-      .attr("y1", (d) => y(d.accuracy.mean + d.accuracy.sem))
-      .attr("y2", (d) => y(d.accuracy.mean - d.accuracy.sem))
-      .attr("stroke", (d) => family_color(d.model_family))
-      .attr("stroke-width", 2);
+      .attr("x1", (d) => x(d[data_key]))
+      .attr("x2", (d) => x(d[data_key]))
 
   var datapoint = datapoint_elements
     .append("g")
-      .attr("transform", (d) => `translate(${x(d.num_params)}, ${y(d.accuracy.mean)}) scale(1, 1)`);
+      .attr("transform", (d) => `translate(${x(d[data_key])}, ${y(d.accuracy.mean)}) scale(1, 1)`);
+}
 
-  // Add the scatter plot symbols
-  datapoint
-    .append("path")
-      .attr("d", symbol.type((d) => {
-        if (d.model_type.startsWith("MLM")) {return d3.symbolSquare} else {return d3.symbolCircle}
-      }))
-      .attr("transform", (d) => `scale(0.7, 0.7)`)
-      .attr("fill", (d) => family_color(d.model_family))
-      .append("svg:title").text((d) => `${d.model_name}: ${d.accuracy.mean.toPrecision(3)}`);
 
-  // Add the model names
-  datapoint
-    .append("text")
-    .text((d) => d.model_name)
-    .attr("transform", "rotate(20)")
-    .attr("dx", 8)
-    .attr("dy", 4)
-    .attr("font-size", 10)
-    .attr("style", "display: none;")
-    .attr("opacity", 0.0);
-            
+function setup_plot() {
+  var data_key = xAxisKeySelect.value;
+  var model_families = window.model_families;
+
+  update_axis();
+
+  // Add the legend
+  // Usually you have a color scale in your chart already
+  var family_color = d3.scaleOrdinal()
+    .domain(model_families.map(f => f[0].model_family))
+    .range(d3.schemeTableau10);
+
+  line_plot
+    .selectAll(".family-line")
+    .data(model_families)
+    .join(
+      function(enter) {
+        enter.append("path")
+          .attr("class", d => `family-line family-line-${d[0].model_family}`)
+          .attr("stroke", "gray")
+          .attr("fill", "none")
+          .attr("stroke-width", 1)
+          .attr("stroke-dasharray", "2,2")
+          .attr("d", family_d => (d3.line()
+            .defined((d) => !!d[data_key])
+            .x((d) => x(d[xAxisKeySelect.value]))
+            .y((d) => y(d.accuracy.mean))
+          )(sorted_datapoints(family_d)));
+      },
+      function(update) {
+        var line = 
+
+        update
+          .transition().duration(200).attr("opacity", 0)
+          .transition().duration(0)
+          .attr("d", family_d => (d3.line()
+            .defined((d) => !!d[data_key])
+            .x((d) => x(d[xAxisKeySelect.value]))
+            .y((d) => y(d.accuracy.mean))
+          )(sorted_datapoints(family_d)))
+          .transition().duration(200).attr("opacity", 1)
+      }
+    )
+    
+  function transform_string(d) {
+    if (d[data_key]) {
+      return `translate(${x(d[data_key])}, ${y(d.accuracy.mean)})`
+    } else {
+      return `translate(${width/2}, ${5*height})`
+    }
+  }
+
+  // Set up highlighting for the datapoints
+  scatter_plot
+    .selectAll("g.datapoint")
+    .data(window.datapoints)
+    .join(
+      function (enter) {
+        var annotatedDatapoint = enter.append("g")
+          .attr("class", (d) => `datapoint datapoint-${d.model_family}`)
+          .on("mouseover", (e, d, i) => hightlight_model_family(d.model_family))
+          .on("mouseout", (e, d, i) => dehiglight_model_family(d.model_family))
+          .attr("opacity", (d) => (d[data_key]) ? 1.0 : 0.0)
+          .attr("transform", transform_string);
+
+        // Add the error bars
+        annotatedDatapoint
+          .append("line")
+            .attr("class", "datapoint-errorbar")
+            .attr("x1", 0)
+            .attr("x2", 0)
+            .attr("y1", (d) => y(d.accuracy.mean + d.accuracy.sem) - y(d.accuracy.mean))
+            .attr("y2", (d) => y(d.accuracy.mean - d.accuracy.sem) - y(d.accuracy.mean))
+            .attr("stroke", (d) => family_color(d.model_family))
+            .attr("stroke-width", 2);
+
+        // Add the scatter plot symbols
+        annotatedDatapoint 
+          .append("path")
+            .attr("class", "datapoint-symbol")
+            .attr("d", symbol.type((d) => {
+              if (d.model_type.startsWith("MLM")) {return d3.symbolSquare} else {return d3.symbolCircle}
+            }))
+            .attr("transform", (d) => `scale(0.7, 0.7)`)
+            .attr("fill", (d) => family_color(d.model_family))
+            .append("svg:title").text((d) => `${d.model_name}: ${d.accuracy.mean.toPrecision(3)}`);
+
+        // Add the model names
+        annotatedDatapoint
+          .append("text")
+            .attr("class", "datapoint-annotation")
+            .text((d) => d.model_name)
+            .attr("transform", "rotate(20)")
+            .attr("dx", 8)
+            .attr("dy", 4)
+            .attr("font-size", 10)
+            .attr("style", "display: none;")
+            .attr("opacity", 0.0);
+      },
+      function (update) {
+        update.transition().duration(400)
+          .attr("transform", transform_string)
+          .attr("opacity", (d) => (d[data_key]) ? 1.0 : 0.0);
+      }
+    )
+    
   random_baseline
     .attr("transform", `translate(0, ${y(random_baseline_accuracy)})`);
 
   // Add one dot in the legend for each name.
-  var legend_element = legend.selectAll("legend-elements")
+  var legend_element = legend.selectAll("g.legend-element")
     .data(model_families)
     .enter()
     .append("g")
-      .attr("class", (d, i) => `legend-element-${d[0].model_family}`)
+      .attr("class", (d, i) => `legend-element legend-element-${d[0].model_family}`)
       .attr("transform", (d, i) => `translate (0, ${i * legend_dy})`)
-      .on("mouseover", (e, d, i) => mouseover_model_family(d[0].model_family))
-      .on("mouseout", (e, d, i) => mouseout_model_family(d[0].model_family));
+      .on("mouseover", (e, d, i) => hightlight_model_family(d[0].model_family))
+      .on("mouseout", (e, d, i) => dehiglight_model_family(d[0].model_family));
 
   legend_element
     .append("path")
@@ -331,14 +367,74 @@ function populate_plot(data) {
       .text(function(d){ return d[0].model_family})
       .attr("text-anchor", "start")
       .attr("font-size", "10");
-
 }
+
+
+/* Animate the plot on selecting a different value */
+
+xAxisKeySelect.addEventListener("change", function(event) {
+  event.preventDefault();
+  setup_plot();
+  return false;
+});
+
+/* Animate hightlighting of model families */
+
+function hightlight_model_family(model_family) {
+  line_plot.select(`.family-line-${model_family}`)
+    .transition().duration(200)
+    .attr("stroke-width", 2);
+
+  // Hightlight all scatter plots
+  var datapoints = scatter_plot.selectAll(`.datapoint-${model_family}`);
+
+  datapoints
+    .selectAll("path.datapoint-symbol")
+    .transition()
+    .duration(100)
+    .attr("transform", "scale(1.2, 1.2)");
+
+  datapoints
+    .selectAll("text.datapoint-annotation")
+    .attr("style", "")
+    .transition()
+    .duration(100)
+    .attr("opacity", 1.0);
+
+  // Raising the datapoint itself somehow messes with the mouseout event, hence we lower every other element
+  var selection = scatter_plot.selectAll(`.datapoint:not(.datapoint-${model_family})`);
+  selection.lower();
+  selection.order(); // reorder elements to prevent shifting between them
+}
+
+function dehiglight_model_family(model_family) {
+  line_plot.select(`.family-line-${model_family}`)
+    .transition().duration(200)
+    .attr("stroke-width", 1);
+  
+  var datapoints = scatter_plot.selectAll(`.datapoint-${model_family}`);
+  datapoints.selectAll("path.datapoint-symbol")
+    .transition()
+    .duration('200')
+    .attr("transform", "scale(0.7, 0.7)");
+
+  datapoints.selectAll("text.datapoint-annotation")
+    .transition()
+    .duration("100")
+    .attr("opacity", 0.0)
+    .transition()
+    .attr("style", "display: none");
+}
+
 
 
 /* DATA LOADING */
 
 // Load the data and add lines and dots
 d3.json("results.json").then((data) => {
-  populate_plot(data);
-  populate_table(data);
+  prepare_data(data);
+  setup_plot();
+  setup_table(data);
 });
+
+
