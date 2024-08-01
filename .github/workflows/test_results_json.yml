@@ -1,0 +1,33 @@
+name: Test Results JSON
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+    - "results.json"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "results.json"
+
+jobs:
+  run:
+    name: "Test Results JSON"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    - name: Set up pip cache
+      if: runner.os == 'Linux'
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+        restore-keys: ${{ runner.os }}-pip-
+    - name: Install pytest
+      run: pip install pytest
+    - name: Tests
+      run: python -m pytest scripts/test_results_json.py

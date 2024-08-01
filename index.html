@@ -80,6 +80,33 @@
       </div>
     </section>
     <section class="shadow-box">
+      <h2>Contributing to the Leaderboard</h2>
+      <p>
+        <b>We warmly welcome contributions to the BEAR leaderboard!</b> To contribute new models to the leaderboard, please add your results to the file <i>results.json</i>
+        and <a href="https://github.com/lm-pub-quiz/lm-pub-quiz.github.io/pulls"> create a pull request</a>.
+      </p>
+      <p>The result entry should follow the following format:</p>
+      <pre><code class="language-json">    {
+        "model_name": "bert-base-cased",
+        "model_url": "https:\/\/huggingface.co\/bert-base-cased",
+        "model_family":"bert",
+        "model_type":"MLM",
+        "num_params": 109e6,
+        "num_tokens": 3.3e9,
+        "size_pretraining_GB": null,
+        "source":"https://huggingface.co/blog/bert-101",
+        "accuracy":{
+            "mean":0.1839348079,
+            "sem":0.0036593149
+        }
+    },</code></pre>
+      <p style="font-size: 0.85em">
+        Please add the model name & family, the type of model (CLM or MLM) and the URL where the model can be accessed. Please also add information on the number of parameters the model contains, as well as information on the pre-training setup: The number of pre-training tokens as well as the size of the pre-training data in GB (if this information is available).
+        If this information was retrieved from some other source (than the main page of the model), please add the URL to the source field.
+        The <i>mean accuracy</i> refers to the weighted mean over all three templates, <i>sem</i> refers to the standard error.
+      </p>
+    </section>
+    <section class="shadow-box">
       <div style="text-align: right;"><span class="badge acl">Accepted at NAACL 2024</span></div>
       <h2>BEAR: A Unified Framework for Evaluating Relational Knowledge in Causal and Masked Language Models</h2>
       <h3>Abstract</h3>
