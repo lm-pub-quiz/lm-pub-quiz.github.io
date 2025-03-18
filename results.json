@@ -347,5 +347,74 @@
             "mean": 0.64084,
             "sem":  0.014853
          }
+    },
+    {
+    "model_name": "pythia-14m",
+    "model_url": "https://huggingface.co/EleutherAI/pythia-14m",
+    "model_family": "pythia",
+    "model_type": "CLM",
+    "num_params": 14e6,
+    "num_tokens": 300e9,
+    "size_pretraining_GB": null,
+    "source": "https://huggingface.co/collections/EleutherAI/pythia-scaling-suite-64fb5dfa8c21ebb3db7ad2e1",
+    "accuracy": {
+        "mean": 0.0631224434218318,
+        "sem": 0.0068707406523311
+    }
+},
+{
+    "model_name": "pythia-160m",
+    "model_url": "https://huggingface.co/EleutherAI/pythia-160m",
+    "model_family": "pythia",
+    "model_type": "CLM",
+    "num_params": 160e6,
+    "num_tokens": 300e9,
+    "size_pretraining_GB": null,
+    "source": "https://huggingface.co/collections/EleutherAI/pythia-scaling-suite-64fb5dfa8c21ebb3db7ad2e1",
+    "accuracy": {
+        "mean": 0.1326713741051976,
+        "sem": 0.0158530719919707
+    }
+},
+{
+    "model_name": "pythia-410m",
+    "model_url": "https://huggingface.co/EleutherAI/pythia-410m",
+    "model_family": "pythia",
+    "model_type": "CLM",
+    "num_params": 410e6,
+    "num_tokens": 300e9,
+    "size_pretraining_GB": null,
+    "source": "https://huggingface.co/collections/EleutherAI/pythia-scaling-suite-64fb5dfa8c21ebb3db7ad2e1",
+    "accuracy": {
+        "mean": 0.2285305733404724,
+        "sem": 0.0247710531542069
+    }
+},
+{
+    "model_name": "pythia-1b",
+    "model_url": "https://huggingface.co/EleutherAI/pythia-1b",
+    "model_family": "pythia",
+    "model_type": "CLM",
+    "num_params": 1e9,
+    "num_tokens": 300e9,
+    "size_pretraining_GB": null,
+    "source": "https://huggingface.co/collections/EleutherAI/pythia-scaling-suite-64fb5dfa8c21ebb3db7ad2e1",
+    "accuracy": {
+        "mean": 0.2853162264059624,
+        "sem": 0.0271383324553604
+    }
+},
+{
+    "model_name": "pythia-1.4b",
+    "model_url": "https://huggingface.co/EleutherAI/pythia-1.4b",
+    "model_family": "pythia",
+    "model_type": "CLM",
+    "num_params": 1.4e9,
+    "num_tokens": 300e9,
+    "size_pretraining_GB": null,
+    "source": "https://huggingface.co/collections/EleutherAI/pythia-scaling-suite-64fb5dfa8c21ebb3db7ad2e1",
+    "accuracy": {
+        "mean": 0.3226961735858232,
+        "sem": 0.0289548774028385
     }
 ]
