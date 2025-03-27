@@ -54,6 +54,7 @@ function setup_table(data) {
 
   row.append("td").append("a").attr("href", (d) => d.model_url).text((d) => d.model_name);
   row.append("td").text((d) => d.model_type);
+  row.append("td").text((d) => d.year_published);
   row.append("td").text((d) => params_format(d.num_params));
   row.append("td").text((d) => params_format(d.num_tokens, 0));
   row.append("td").html((d) => format_accuracy(d.accuracy));
@@ -116,14 +117,25 @@ var symbol = d3.symbol();
 const svg = d3.selectAll("svg.result-plot").attr("viewBox","0 0 " + width + " " + height);
 
 // Set up the axis
-const x = d3.scaleLog().range([marginLeft, width - marginRight]);
+const x_log = d3.scaleLog().range([marginLeft, width - marginRight]);
+const x_linear = d3.scaleLog().range([marginLeft, width - marginRight]);
+
+function x(value) {
+  if (xAxisKeySelect.value.startsWith("year_")) {
+    return x_linear(value);
+  } else {
+    return x_log(value);
+  }
+}
+
 const y = d3.scaleLinear().range([height - marginBottom, marginTop]);
 
 const group_x = svg.append("g")
   .attr("transform", `translate(0,${height - marginBottom})`)
   .attr("opacity", 0.7);
 
-const xAxis = d3.axisBottom(x).tickSizeOuter(0);
+const xAxis_log = d3.axisBottom(x_log).tickSizeOuter(0);
+const xAxis_linear = d3.axisBottom(x_linear).tickSizeOuter(0).tickFormat(d3.format("d"));
 
 const group_y = svg.append("g")
   .attr("transform", `translate(${marginLeft},0)`)
@@ -197,13 +209,24 @@ function update_axis() {
   var xmax = Math.max(Math.max(...xValues), 10);
   var ymax = Math.max(...data.map((d) => d.accuracy.mean));
 
-  var xmin_log = Math.log(xmin);
-  var xmax_log = Math.log(xmax);
+  if (xAxisKeySelect.value.startsWith("year_")) {
+    // Linear Scale
+    x_linear.domain([xmin - 0.5, xmax + 0.5]).range([marginLeft, width - marginRight]);
+    group_x.transition().duration(400).call(xAxis_linear);
+    group_x.selectAll(".tick").filter(e => e % 1).remove();
 
-  x.domain([Math.exp(xmin_log - 0.1*(xmax_log - xmin_log)), Math.exp(xmax_log + 0.1*(xmax_log - xmin_log))]).range([marginLeft, width - marginRight]);
+  } else {
+    // Logarithmic Scale
+    var xmin_log = Math.log(xmin);
+    var xmax_log = Math.log(xmax);
+
+    x_log.domain([Math.exp(xmin_log - 0.1*(xmax_log - xmin_log)), Math.exp(xmax_log + 0.1*(xmax_log - xmin_log))]).range([marginLeft, width - marginRight]);
+    group_x.transition().duration(400).call(xAxis_log);
+  }
+
+
   y.domain([0, ymax + 0.05]).range([height - marginBottom, marginTop]);
 
-  group_x.transition().duration(400).call(xAxis);
   group_y.transition().duration(400).call(yAxis);
 }
 

@@ -63,12 +63,14 @@
      <col span="1" style="min-width: 3rem;">
      <col span="1" style="min-width: 3rem;">
      <col span="1" style="min-width: 3rem;">
+     <col span="1" style="min-width: 3rem;">
      <col span="1" style="min-width: 4rem;">
   </colgroup>
   <thead>
     <tr style="text-align: left;">
       <th data-sort-key="model_name">Model</th>
       <th data-sort-key="model_type">Type</th>
+      <th data-sort-key="year_published">Year of Publication</th>
       <th data-sort-key="num_params">Num Params</th>
       <th data-sort-key="num_tokens">Num Tokens</th>
       <th data-sort-key="accuracy">BEAR</th>
@@ -91,6 +93,7 @@
         "model_url": "https:\/\/huggingface.co\/bert-base-cased",
         "model_family":"bert",
         "model_type":"MLM",
+        "year_published":"2018",
         "num_params": 109e6,
         "num_tokens": 3.3e9,
         "size_pretraining_GB": null,
@@ -130,6 +133,7 @@
           <select id="xAxisKeySelect">
             <option value="num_params">number of parameters</option>
             <option value="num_tokens">number of tokens during pretraining</option>
+            <option value="year_published">year of publication</option>
           </select>
           .</figcaption> 
       </figure>
